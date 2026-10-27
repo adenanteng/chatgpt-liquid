@@ -1,0 +1,25 @@
+# Python and editor files
+__pycache__/
+*.py[cod]
+.venv/
+.idea/
+.vscode/
+.DS_Store
+
+# Never publish proprietary runtimes or personal profiles
+*.asar
+*.asar.*
+*.AppImage
+app/
+app-theme-aware/
+ChatGPT/
+resources/
+profile/
+profiles/
+agent-home/
+backups/
+build-info.json
+install-state*.json
+.env
+.env.*
+*.log

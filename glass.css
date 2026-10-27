@@ -1,0 +1,17 @@
+/* Personal Linux transparency trial; foreground opacity is unchanged. */
+html, body, #root { background: transparent !important; }
+/* The app sets color-scheme when its theme changes, including system mode. */
+body {
+  background-color: light-dark(rgba(255, 255, 255, 0.50), rgba(36, 36, 36, 0.50)) !important;
+}
+:root, [data-theme], .messaging-root {
+  --app-color-background-surface: transparent !important;
+  --color-background-primary: transparent !important;
+}
+:root, [data-theme], [data-codex-window-type], .messaging-root {
+  --app-color-background-shell: transparent !important;
+  --app-shell-panel-background: transparent !important;
+}
+[data-slate-sidebar-content] {
+  background-color: light-dark(rgba(245, 245, 245, 0.20), rgba(30, 30, 30, 0.20)) !important;
+}
