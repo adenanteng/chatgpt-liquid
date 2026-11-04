@@ -2,8 +2,10 @@ from pathlib import Path
 import json,struct,hashlib,shutil,re,subprocess,os
 base=Path(__file__).resolve().parent
 source=Path('/usr/lib/chatgpt')
-app=Path.home()/'.local/share/chatgpt-liquid-glass/26.1013.40934/app-theme-aware'
+app=Path.home()/'.local/share/chatgpt-liquid-glass/26.1029.61003/app-theme-aware'
 archive=source/'resources/app.asar'
+expected='a28793c2e1c41331903d7aa035d62e385ae81fd0719548f28dec2995d253a713'
+assert hashlib.sha256(archive.read_bytes()).hexdigest()==expected,'Untested ChatGPT archive; inspect the new build before patching'
 for proc in Path('/proc').glob('[0-9]*'):
     try: executable=os.readlink(proc/'exe')
     except OSError: continue
@@ -24,20 +26,20 @@ def read(name):
     with archive.open('rb') as f:
         f.seek(data_start+int(n['offset']));return f.read(n['size'])
 pkg=json.loads(read('package.json'))
-assert pkg['version']=='26.1013.40934','Untested ChatGPT version; original installation remains unchanged'
-main_name='.vite/build/main-CLu1A25j.js'
+assert pkg['version']=='26.1029.61003','Untested ChatGPT version; original installation remains unchanged'
+main_name='.vite/build/early-bootstrap-45-628adb74a9c47df1.js'
 raw=read(main_name).decode()
-old='n===`win32`||n===`linux`?{titleBarStyle:`hidden`,titleBarOverlay:A9(r)}'
-new='n===`win32`||n===`linux`?{titleBarStyle:`hidden`,titleBarOverlay:A9(r),...n===`linux`?{transparent:!0,backgroundColor:`#00000000`}:{}}'
+old='F=new ea.BrowserWindow(O);'
+new='F=new ea.BrowserWindow({...O,...process.platform==="linux"&&d==="primary"?{transparent:!0,backgroundColor:"#00000000"}:{}});'
 assert raw.count(old)==1,'Window constructor changed'
 raw=raw.replace(old,new)
 old='shouldAlwaysUseOpaqueWindowSurface(e){return'
-new='shouldAlwaysUseOpaqueWindowSurface(e){if(process.platform===`linux`&&e===`primary`)return!1;return'
+new='shouldAlwaysUseOpaqueWindowSurface(e){if(process.platform==="linux"&&e==="primary")return!1;return'
 assert raw.count(old)==1,'Opaque-surface policy changed'
 raw=raw.replace(old,new)
-old='let B=z.webContents;'
+old='let j=F.webContents;'
 css=(base/'glass.css').read_text()
-new=old+'if(process.platform===`linux`&&d===`primary`)B.on(`did-finish-load`,()=>{B.insertCSS('+json.dumps(css)+',{cssOrigin:`user`}).catch(e=>console.error(`[local-glass] CSS injection failed`,e));});'
+new=old+'if(process.platform===`linux`&&d===`primary`)j.on(`did-finish-load`,()=>{j.insertCSS('+json.dumps(css)+',{cssOrigin:`user`}).catch(e=>console.error(`[local-glass] CSS injection failed`,e));});'
 assert raw.count(old)==1,'Window loading hook changed'
 raw=raw.replace(old,new)
 subprocess.run(['node','--check','--input-type=module'],input=raw,text=True,check=True)

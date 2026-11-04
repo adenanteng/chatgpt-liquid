@@ -2,7 +2,7 @@ from pathlib import Path
 import hashlib,json,shutil,datetime,subprocess
 base=Path(__file__).resolve().parent
 home=Path.home();data=home/'.local/share/chatgpt-liquid-glass';state=home/'.local/state/chatgpt-liquid-glass'
-info=json.loads((data/'26.1013.40934/build-info.json').read_text())
+info=json.loads((data/'26.1029.61003/build-info.json').read_text())
 assert hashlib.sha256(Path('/usr/lib/chatgpt/resources/app.asar').read_bytes()).hexdigest()==info['original_asar_sha256'],'Installed ChatGPT changed; do not install this launcher.'
 assert not (state/'install-state.json').exists(),'Local launcher is already installed; inspect it before reinstalling.'
 backup=state/'backups'/datetime.datetime.now().strftime('%Y%m%d-%H%M%S');backup.mkdir(parents=True)
