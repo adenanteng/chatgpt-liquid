@@ -20,6 +20,18 @@ ChatGPT Liquid opens the application's background to your desktop while keeping 
 
 This is an **unofficial, version-specific local patch**, not a ChatGPT client or an application distribution. Bring your own compatible installation. OpenAI does not maintain or endorse this project.
 
+## Maintainer and agent handoff
+
+Start with [AGENTS.md](AGENTS.md) when continuing this project without the original conversation. The complete English handoff covers:
+
+| Guide | Contents |
+| --- | --- |
+| [Architecture](docs/ARCHITECTURE.md) | Material model, source map, native patch anchors, themes, safeguards, design history |
+| [Maintainer runbook](docs/MAINTAINER.md) | Tool contracts, paths, installation, package/CSS updates, tests, troubleshooting, rollback, handoff evidence |
+| [ASAR and UI investigation](docs/ASAR-INSPECTION.md) | Recreate inspection tools, locate new bundles, inspect background metadata, use and remove temporary diagnostic probes |
+
+The reference date is **2026-11-15**. Recorded tests and pending live checks are distinguished explicitly; verify the current machine before reusing an old baseline.
+
 ## Features
 
 - **Selective transparency.** The base background is 50% opaque; foreground opacity stays unchanged.
@@ -38,7 +50,7 @@ The patch targets a specific Electron build. It is **not a universal patch for e
 | Component | Tested configuration |
 | --- | --- |
 | Distribution | Manjaro Linux |
-| Desktop | Hyprland 0.56.2 with HyprGlass |
+| Desktop profile reference (2026-11-15) | Hyprland 0.57.2 with Hyprglass `1.1.1-optical-rim` |
 | Window backend | XWayland |
 | Installed package | `chatgpt-bin 26.1111.21308-1` |
 | Internal Electron package | `openai-codex-electron`, version `26.1111.21308` |
@@ -52,6 +64,8 @@ The launcher pins this original `resources/app.asar` SHA-256:
 ```
 
 A matching version label alone does not guarantee a matching build. Native Wayland, other package layouts, and newer versions have not been validated.
+
+The current package passed archive/native-hook and light/dark fixture checks. A complete quit/reopen and live visual check of the newly prepared ChatGPT runtime remained pending at the recorded handoff. The desktop profile reference is not a claim that this package received full visual validation; see the [evidence boundary](docs/MAINTAINER.md#recorded-2026-11-15-boundary).
 
 ### Requirements
 
