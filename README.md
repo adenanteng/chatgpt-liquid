@@ -40,15 +40,15 @@ The patch targets a specific Electron build. It is **not a universal patch for e
 | Distribution | Manjaro Linux |
 | Desktop | Hyprland 0.56.2 with HyprGlass |
 | Window backend | XWayland |
-| Installed package | `chatgpt-bin 26.1029.61003-1` |
-| Internal Electron package | `openai-codex-electron`, version `26.1029.61003` |
+| Installed package | `chatgpt-bin 26.1111.21308-1` |
+| Internal Electron package | `openai-codex-electron`, version `26.1111.21308` |
 | Application directory | `/usr/lib/chatgpt` |
 | Original desktop entry | `/usr/share/applications/chatgpt.desktop` |
 
 The launcher pins this original `resources/app.asar` SHA-256:
 
 ```text
-a28793c2e1c41331903d7aa035d62e385ae81fd0719548f28dec2995d253a713
+904779f81a2e952cdac544375835bb730c727c5c7b4d3b71028c81855ff6088a
 ```
 
 A matching version label alone does not guarantee a matching build. Native Wayland, other package layouts, and newer versions have not been validated.
@@ -130,8 +130,8 @@ The GitHub project is named `chatgpt-liquid`. Runtime and command names retain `
 
 | Path | Purpose |
 | --- | --- |
-| `~/.local/share/chatgpt-liquid-glass/26.1029.61003/app-theme-aware/` | Patched application copy |
-| `~/.local/share/chatgpt-liquid-glass/26.1029.61003/build-info.json` | Original and patched archive checksums |
+| `~/.local/share/chatgpt-liquid-glass/26.1111.21308/app-theme-aware/` | Patched application copy |
+| `~/.local/share/chatgpt-liquid-glass/26.1111.21308/build-info.json` | Original and patched archive checksums |
 | `~/.local/bin/chatgpt-liquid-glass` | Guarded application launcher |
 | `~/.local/share/applications/chatgpt.desktop` | User-local desktop entry |
 | `~/.local/bin/chatgpt-liquid-glass-rollback` | Rollback command |
@@ -187,9 +187,9 @@ The original package remains managed by your package manager. When its ASAR chec
 
 To support another build, a maintainer must inspect its window creation and surface policy, update the exact patch locations and launcher fingerprint, then test the resulting application. **Changing only the version string or checksum is not a compatibility fix.**
 
-## 2026-11-04 package update
+## 2026-11-15 package update
 
-The native patch locations and exact archive fingerprint were reviewed for this package build. JavaScript syntax, rebuilt ASAR integrity, theme fixtures, and a Node-based smoke check of the patched window/CSS hooks passed. The smoke check executes the extracted patched functions with stub window objects; it does not start the application or access account data. Background styling remains unchanged from the previous integration.
+The native constructor, appearance scope, backdrop policy, and loading hook were inspected for ChatGPT 26.1111.21308 before updating the exact archive fingerprint. JavaScript syntax, rebuilt ASAR integrity, theme fixtures, and a Node-based smoke check of the patched window/CSS hooks passed. The smoke check executes the extracted patched functions with stub window objects; it does not start the application or access account data. Background styling remains unchanged from the previous integration.
 
 After preparation, run `python3 check-window.py` to repeat the window/hook check. A live visual check of every logged-in view and a fresh login/reboot remain unverified for this package update.
 
